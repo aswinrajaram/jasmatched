@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aswin & Jahanvi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cream: #FAF8F5;
+            --dark: #1a1a1a;
+            --accent: #8B7355;
+            --light-accent: #C4B5A0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(250, 248, 245, 0.98);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(139, 115, 85, 0.1);
+        }
+
+        .nav-logo {
+            font-family: 'Cormorant', serif;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            color: var(--dark);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            padding: 0 2rem;
+        }
+
+        .hero-content .pre-title {
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .hero-subtitle {
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin: 1rem 0;
+            font-weight: 500;
+        }
+
+        .hero-venue {
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-top: 2rem;
+            font-weight: 500;
+        }
+
+        .hero-venue a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid var(--accent);
+            transition: opacity 0.3s;
+        }
+
+        .hero-venue a:hover {
+            opacity: 0.7;
+        }
+
+        .hero-names {
+            font-family: 'Cormorant', serif;
+            font-size: clamp(3.5rem, 10vw, 8rem);
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        .hero-names .name {
+            display: block;
+        }
+
+        .hero-names .ampersand {
+            display: block;
+            font-size: 0.6em;
+            margin: 0.3rem 0;
+        }
+
+        .divider {
+            width: 60px;
+            height: 1px;
+            background: var(--accent);
+            margin: 2rem auto;
+        }
+
+        .hero-date {
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin-top: 2rem;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: var(--accent);
+            animation: scroll 2s ease-in-out infinite;
+        }
+
+        @keyframes scroll {
+            0%, 100% { transform: translateY(0); opacity: 1; }
+            50% { transform: translateY(10px); opacity: 0.3; }
+        }
+
+        /* Countdown */
+        .countdown {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(139, 115, 85, 0.2);
+            border-bottom: 1px solid rgba(139, 115, 85, 0.2);
+        }
+
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .countdown-number {
+            font-family: 'Cormorant', serif;
+            font-size: 3rem;
+            color: var(--accent);
+        }
+
+        .countdown-label {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--dark);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Cormorant', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--accent);
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        /* Venue */
+        .venue {
+            text-align: center;
+        }
+
+        .venue-name {
+            font-family: 'Cormorant', serif;
+            font-size: 2rem;
+            margin: 1rem 0;
+        }
+
+        .venue-link {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.8rem 2rem;
+            border: 1px solid var(--accent);
+            color: var(--dark);
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .venue-link:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* Story */
+        .story-content {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            line-height: 1.9;
+            font-size: 1.05rem;
+            color: #4a4a4a;
+        }
+
+        .story-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .story-content .quote {
+            font-family: 'Cormorant', serif;
+            font-size: 1.3rem;
+            margin-top: 2rem;
+            color: var(--accent);
+            font-style: italic;
+        }
+
+        .spotify-embed {
+            margin: 2.5rem auto 0;
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .spotify-embed iframe {
+            border-radius: 12px;
+            width: 100%;
+            height: 152px;
+        }
+
+        /* Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            transform: translateZ(0);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Events */
+        .events-grid {
+            display: grid;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .event-day-header {
+            font-family: 'Cormorant', serif;
+            font-size: 1.8rem;
+            text-align: center;
+            padding: 2rem 0 1.5rem;
+            color: var(--accent);
+        }
+
+        .event-card {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            border: 1px solid rgba(139, 115, 85, 0.15);
+            transition: all 0.3s;
+        }
+
+        .event-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .event-time-block {
+            text-align: center;
+            padding: 1rem;
+            border-right: 1px solid rgba(139, 115, 85, 0.15);
+        }
+
+        .event-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-time {
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            color: var(--accent);
+        }
+
+        .event-details h3 {
+            font-family: 'Cormorant', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-description {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .event-attire {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-style: italic;
+        }
+
+        /* RSVP */
+        .rsvp {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 2rem;
+        }
+
+        .rsvp .section-title {
+            color: white;
+        }
+
+        .rsvp .section-subtitle {
+            color: var(--light-accent);
+        }
+
+        .rsvp-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            color: var(--light-accent);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.9rem;
+            background: transparent;
+            border: 1px solid rgba(196, 181, 160, 0.3);
+            color: white;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--light-accent);
+        }
+
+        .attendance-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .attendance-option {
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid rgba(196, 181, 160, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .attendance-option:hover {
+            border-color: var(--light-accent);
+        }
+
+        .attendance-option.selected {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.1rem;
+            background: transparent;
+            border: 1px solid white;
+            color: white;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            background: white;
+            color: var(--dark);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .thank-you {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .thank-you-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .thank-you h3 {
+            font-family: 'Cormorant', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            font-size: 0.8rem;
+            color: #999;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav-links {
+                gap: 1.5rem;
+            }
+
+            .nav-links a {
+                font-size: 0.75rem;
+            }
+
+            .countdown-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .event-card {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .event-time-block {
+                border-right: none;
+                border-bottom: 1px solid rgba(139, 115, 85, 0.15);
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 3rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="nav">
+        <div class="nav-logo">A · J</div>
+        <ul class="nav-links">
+            <li><a href="#story">Story</a></li>
+            <li><a href="#events">Events</a></li>
+            <li><a href="#rsvp">RSVP</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="pre-title">Together with their families</div>
+            <h1 class="hero-names">
+                <span class="name">Aswin</span>
+                <span class="ampersand">&</span>
+                <span class="name">Jahanvi</span>
+            </h1>
+            <div class="divider"></div>
+            <div class="hero-subtitle">cordially invite you to join the celebrations on</div>
+            <div class="hero-date">MAY 2 & 3, 2026</div>
+            <div class="hero-venue">at <a href="https://www.google.com/maps/place/OSR+Royal+Green+Resort" target="_blank">OSR Royal Green Resort</a></div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Story -->
+    <section class="section" id="story">
+        <h2 class="section-title">Two states, One forever</h2>
+        <div class="story-content">
+            <p>What started as a simple text on a warm summer night grew into four years of movie nights, long-distance video calls, friendly board-game fights, shared meals, laughter, and love. Somewhere along the way, we became each other's calm in chaos and occasionally chaos in calm and the little world we've built together.</p>
+            <p>There is a certain melody that captures the quiet magic of how we found one another. We invite you to press play and share in the song that means the most to us.</p>
+        </div>
+        <div class="spotify-embed">
+            <iframe 
+                style="border-radius:12px" 
+                src="https://open.spotify.com/embed/track/4HbeGjbt7u3pvwDk1vN7P0?utm_source=generator&theme=0" 
+                width="100%" 
+                height="152" 
+                frameBorder="0" 
+                allowfullscreen="" 
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                loading="lazy">
+            </iframe>
+        </div>
+        <div class="story-content">
+            <p class="quote">"From then to now, and for all the adventures that lie ahead, we promise to choose each other."</p>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="section">
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="https://i.ibb.co/vxW5HGQY/138-C218-F-EAF6-4009-858-C-AE275-FD34140.jpg" alt="Aswin and Jahanvi 1">
+            </div>
+            <div class="gallery-item">
+                <img src="https://i.ibb.co/3Yj5Xqk5/2-DA9147-A-6-B38-49-F2-862-F-AE49-A7-E8-FCDB.jpg" alt="Aswin and Jahanvi 2">
+            </div>
+            <div class="gallery-item">
+                <img src="https://i.ibb.co/2355k4JL/A4-F6-D3-E7-2-A19-4372-960-C-13563747-A11-C.jpg" alt="Aswin and Jahanvi 3">
+            </div>
+        </div>
+    </section>
+
+    <!-- Events -->
+    <section class="section" id="events">
+        <h2 class="section-title">Order of Events</h2>
+        
+        <div class="events-grid">
+            <div class="event-day-header">May 2, 2026</div>
+            
+            <div class="event-card">
+                <div class="event-time-block">
+                    <div class="event-icon">🌼</div>
+                    <div class="event-time">12:00 PM</div>
+                </div>
+                <div class="event-details">
+                    <h3>Haldi</h3>
+                    <p class="event-description">Pastels, playlists, and turmeric-stained smiles.</p>
+                    <p class="event-attire">Attire: Pastel Blue and Pink</p>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <div class="event-time-block">
+                    <div class="event-icon">💃</div>
+                    <div class="event-time">7:00 PM</div>
+                </div>
+                <div class="event-details">
+                    <h3>Sangeet & Ring Ceremony</h3>
+                    <p class="event-description">The rings are real, the dance moves are questionable. High energy, dramatic entries, and a soundtrack that refuses to stay in one genre.</p>
+                    <p class="event-attire">Attire: Shimmer and Shine ;)</p>
+                </div>
+            </div>
+
+            <div class="event-day-header">May 3, 2026</div>
+
+            <div class="event-card">
+                <div class="event-time-block">
+                    <div class="event-icon">🤵🏻‍♂️👰🏻‍♀️</div>
+                    <div class="event-time">10:00 AM</div>
+                </div>
+                <div class="event-details">
+                    <h3>Wedding</h3>
+                    <p class="event-description">Just love, vows, and one perfectly timed 'I do'.</p>
+                </div>
+            </div>
+
+            <div class="event-card">
+                <div class="event-time-block">
+                    <div class="event-icon">🥂</div>
+                    <div class="event-time">7:00 PM</div>
+                </div>
+                <div class="event-details">
+                    <h3>Reception</h3>
+                    <p class="event-description">Join us for the after-party where the outfits get better and the story officially goes off-script.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RSVP -->
+    <section class="rsvp" id="rsvp">
+        <h2 class="section-title">RSVP</h2>
+        <p class="section-subtitle">The favour of your response is requested as soon as you can</p>
+        
+        <div id="rsvpForm" class="rsvp-form">
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" id="name" placeholder="Your name">
+            </div>
+
+            <div class="form-group">
+                <label>Number of Guests (including yourself)</label>
+                <select id="guests">
+                    <option value="1">1 Guest</option>
+                    <option value="2">2 Guests</option>
+                    <option value="3">3 Guests</option>
+                    <option value="4">4 Guests</option>
+                    <option value="5">5 Guests</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Attendance</label>
+                <div class="attendance-grid">
+                    <div class="attendance-option" id="btnYes">Joyfully Accept</div>
+                    <div class="attendance-option" id="btnNo">Regretfully Decline</div>
+                </div>
+            </div>
+
+            <button class="submit-btn" id="submitBtn" disabled>Submit RSVP</button>
+        </div>
+
+        <div id="thankYou" class="thank-you" style="display: none;">
+            <div class="thank-you-icon">✓</div>
+            <h3>Thank You</h3>
+            <p id="thankYouMessage" style="color: var(--light-accent);"></p>
+        </div>
+    </section>
+
+    <!-- Countdown -->
+    <section class="countdown">
+        <div class="countdown-grid">
+            <div class="countdown-item">
+                <div class="countdown-number" id="days">0</div>
+                <div class="countdown-label">Days</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="hours">0</div>
+                <div class="countdown-label">Hours</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="minutes">0</div>
+                <div class="countdown-label">Minutes</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="seconds">0</div>
+                <div class="countdown-label">Seconds</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        #JASmatched
+    </footer>
+
+    <script>
+        // Countdown
+        const weddingDate = new Date('2026-05-02T00:00:00').getTime();
+        
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+            
+            document.getElementById('days').textContent = Math.floor(distance / (1000 * 60 * 60 * 24));
+            document.getElementById('hours').textContent = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById('minutes').textContent = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById('seconds').textContent = Math.floor((distance % (1000 * 60)) / 1000);
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Nav scroll
+        window.addEventListener('scroll', () => {
+            document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // RSVP
+        let attending = '';
+        const btnYes = document.getElementById('btnYes');
+        const btnNo = document.getElementById('btnNo');
+        const submitBtn = document.getElementById('submitBtn');
+        const nameInput = document.getElementById('name');
+
+        function checkForm() {
+            submitBtn.disabled = !(nameInput.value && attending);
+        }
+
+        btnYes.addEventListener('click', () => {
+            attending = 'yes';
+            btnYes.classList.add('selected');
+            btnNo.classList.remove('selected');
+            checkForm();
+        });
+
+        btnNo.addEventListener('click', () => {
+            attending = 'no';
+            btnNo.classList.add('selected');
+            btnYes.classList.remove('selected');
+            checkForm();
+        });
+
+        nameInput.addEventListener('input', checkForm);
+
+        submitBtn.addEventListener('click', () => {
+            document.getElementById('rsvpForm').style.display = 'none';
+            document.getElementById('thankYou').style.display = 'block';
+            document.getElementById('thankYouMessage').textContent = attending === 'yes' 
+                ? "We've received your RSVP and can't wait to celebrate with you!"
+                : "We've received your RSVP and appreciate your response.";
+        });
+    </script>
+</body>
+</html>
