@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aswin & Jahanvi</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         * {
@@ -780,12 +781,20 @@
     </footer>
 
     <script>
-        // Countdown
+        // The specific URL you provided
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxESsdkALzeuoKfh3HT7_rPmUBR6iT0jYoRBxnExf9pXQrJkWgtasR23HzGHxDSt3jt/exec';
+    
+        // Countdown Logic
         const weddingDate = new Date('2026-05-02T00:00:00').getTime();
         
         function updateCountdown() {
             const now = new Date().getTime();
             const distance = weddingDate - now;
+            
+            if (distance < 0) {
+                document.querySelector('.countdown').style.display = 'none';
+                return;
+            }
             
             document.getElementById('days').textContent = Math.floor(distance / (1000 * 60 * 60 * 24));
             document.getElementById('hours').textContent = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -795,53 +804,77 @@
         
         setInterval(updateCountdown, 1000);
         updateCountdown();
-
-        // Nav scroll
+    
+        // Navigation & Smooth Scroll
         window.addEventListener('scroll', () => {
             document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
         });
-
-        // Smooth scroll
+    
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 document.querySelector(this.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
             });
         });
-
-        // RSVP
+    
+        // RSVP Logic
         let attending = '';
         const btnYes = document.getElementById('btnYes');
         const btnNo = document.getElementById('btnNo');
         const submitBtn = document.getElementById('submitBtn');
         const nameInput = document.getElementById('name');
-
+    
         function checkForm() {
-            submitBtn.disabled = !(nameInput.value && attending);
+            submitBtn.disabled = !(nameInput.value.trim() && attending);
         }
-
+    
         btnYes.addEventListener('click', () => {
             attending = 'yes';
             btnYes.classList.add('selected');
             btnNo.classList.remove('selected');
             checkForm();
         });
-
+    
         btnNo.addEventListener('click', () => {
             attending = 'no';
             btnNo.classList.add('selected');
             btnYes.classList.remove('selected');
             checkForm();
         });
-
+    
         nameInput.addEventListener('input', checkForm);
-
+    
         submitBtn.addEventListener('click', () => {
-            document.getElementById('rsvpForm').style.display = 'none';
-            document.getElementById('thankYou').style.display = 'block';
-            document.getElementById('thankYouMessage').textContent = attending === 'yes' 
-                ? "We've received your RSVP and can't wait to celebrate with you!"
-                : "We've received your RSVP and appreciate your response.";
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+    
+            // Constructing the data to match Google Apps Script 'e.parameter' expectations
+            const formData = new FormData();
+            formData.append('name', nameInput.value.trim());
+            formData.append('guests', document.getElementById('guests').value);
+            formData.append('attending', attending === 'yes' ? 'Accept' : 'Decline');
+    
+            // fetch with 'no-cors' allows the request to reach Google even if 
+            // the browser blocks the 'success' message due to security policies.
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors'
+            })
+            .then(() => {
+                // Success UI
+                document.getElementById('rsvpForm').style.display = 'none';
+                document.getElementById('thankYou').style.display = 'block';
+                document.getElementById('thankYouMessage').textContent = attending === 'yes' 
+                    ? "We've received your RSVP and can't wait to celebrate with you!"
+                    : "We've received your RSVP and appreciate your response.";
+            })
+            .catch(error => {
+                console.error('Submission Error:', error);
+                alert('Something went wrong. Please try again!');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit RSVP';
+            });
         });
     </script>
 </body>
